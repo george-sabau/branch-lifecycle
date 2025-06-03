@@ -1,0 +1,10 @@
+repo_path: "."                # default repo path (can be overridden by CLI argument)
+base_branch: "develop"        # base branch name
+feature_prefixes:             # branch prefixes to consider feature branches
+  - "feature/"
+  - "bugfix/"
+  - "hotfix/"
+  - "features/"
+  - "fix/"
+results_file: "results.json"  # cache file path
+include_outlier_percent: 50   # percentile filter for outliers
