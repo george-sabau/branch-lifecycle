@@ -4,7 +4,7 @@ from datetime import timedelta
 
 from branch_lifecycle.lifecycle import get_branch_lifecycle
 from branch_lifecycle.serializer import serialize_results, deserialize_results
-from branch_lifecycle.analyzer import analyze_and_print_outliers
+from branch_lifecycle.analyzer import analyze_and_print_outliers, analyze_and_print_outliers_modified_zscore
 from branch_lifecycle.utils import load_config, format_duration  # <-- Add this import
 
 def main():

@@ -7,4 +7,4 @@ feature_prefixes:             # branch prefixes to consider feature branches
   - "features/"
   - "fix/"
 results_file: "results.json"  # cache file path
-include_outlier_percent: 15   # percentile filter for outliers
+include_outlier_percent: 0   # percentile filter for outliers
