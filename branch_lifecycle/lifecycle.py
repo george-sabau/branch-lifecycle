@@ -23,6 +23,11 @@ def get_branch_lifecycle(repo_path='.', base_branch='develop', feature_prefixes=
         if len(merge_commit.parents) < 2:
             continue
 
+        # Extract author info from merge commit
+        author_name = merge_commit.author.name
+        author_email = merge_commit.author.email
+
+        # Get merge base
         merged_branch_tip = merge_commit.parents[1]
         merge_bases = repo.merge_base(base.commit, merged_branch_tip)
         if not merge_bases:
@@ -31,12 +36,13 @@ def get_branch_lifecycle(repo_path='.', base_branch='develop', feature_prefixes=
 
         branch_name = None
         for ref in repo.references:
+            ref_name = ref.name
             if ref.commit == merged_branch_tip and any(
-                    ref.name.startswith(f'refs/heads/{prefix}') or
-                    ref.name.startswith(prefix) or
-                    ref.name.endswith(ref.name)
+                    ref_name.startswith(f'refs/heads/{prefix}') or
+                    ref_name.startswith(prefix) or
+                    ref_name.endswith(ref_name)
                     for prefix in feature_prefixes):
-                branch_name = ref.name.replace('refs/heads/', '').replace('refs/remotes/origin/', '')
+                branch_name = ref_name.replace('refs/heads/', '').replace('refs/remotes/origin/', '')
                 break
 
         if not branch_name:
@@ -62,7 +68,12 @@ def get_branch_lifecycle(repo_path='.', base_branch='develop', feature_prefixes=
         merged_at = datetime.fromtimestamp(merge_commit.committed_date)
 
         if branch_name not in branches_info:
-            branches_info[branch_name] = {'created_at': created_at, 'merged_at': merged_at}
+            branches_info[branch_name] = {
+                'created_at': created_at,
+                'merged_at': merged_at,
+                'author_name': author_name,
+                'author_email': author_email,
+            }
         else:
             if created_at < branches_info[branch_name]['created_at']:
                 branches_info[branch_name]['created_at'] = created_at
@@ -96,6 +107,8 @@ def get_branch_lifecycle(repo_path='.', base_branch='develop', feature_prefixes=
             'duration_minutes': minutes,
             'duration_seconds': duration.total_seconds(),
             'duration': duration,
+            'author_name': info.get('author_name', ''),
+            'author_email': info.get('author_email', ''),
         })
 
     results.sort(key=lambda r: r['created_at'])

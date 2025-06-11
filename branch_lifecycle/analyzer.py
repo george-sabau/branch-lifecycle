@@ -20,13 +20,13 @@ def analyze_and_print_outliers(results, include_outlier_percent=50):
 
     sorted_by_duration = sorted(results, key=lambda x: x[1])
 
-    print("Top 100 shortest durations:")
-    for name, dur in sorted_by_duration[:100]:
+    print("Top 40 shortest durations:")
+    for name, dur in sorted_by_duration[:40]:
         days, hours, minutes = dur.days, dur.seconds // 3600, (dur.seconds % 3600) // 60
         print(f"- Branch '{name}': {days}d {hours}h {minutes}m")
 
-    print("\nTop 100 longest durations:")
-    for name, dur in sorted_by_duration[-100:][::-1]:
+    print("\nTop 40 longest durations:")
+    for name, dur in sorted_by_duration[-40:][::-1]:
         days, hours, minutes = dur.days, dur.seconds // 3600, (dur.seconds % 3600) // 60
         print(f"- Branch '{name}': {days}d {hours}h {minutes}m")
 

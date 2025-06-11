@@ -48,10 +48,11 @@ def deserialize_results(filename='results.json'):
                 'duration_hours': hours,
                 'duration_minutes': minutes,
                 'duration_seconds': duration_seconds,
-                'duration': duration
+                'duration': duration,
+                'author_name': item.get('author_name', ''),
+                'author_email': item.get('author_email', ''),
             })
         except Exception as e:
             print(f"❌ Error parsing item: {item}\n{e}")
 
     return results  # <- MAKE SURE this always happens
-
